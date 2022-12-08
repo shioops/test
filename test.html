@@ -1,0 +1,24 @@
+<h1>地震情報</h1>
+<script>
+    var apiHttps;
+    apiHttps = new XMLHttpRequest();
+    apiHttps.open("GET", "https://api.p2pquake.net/v2/history?codes=551", false);
+    apiHttps.send(null);
+    var log=apiHttps.responseText;
+    setInterval(function(){
+        try{
+            var apiHttp;
+            apiHttp = new XMLHttpRequest();
+            apiHttp.open("GET", "https://api.p2pquake.net/v2/history?codes=551", false);
+            apiHttp.send(null);
+            var jsonData=apiHttp.responseText;
+        }catch(e){};
+        var Rjson=JSON.parse(apiHttp.responseText);
+        if(apiHttp.responseText != log){
+        log=apiHttp.responseText;
+        document.write("地震発生<br>");
+        document.write(Rjson[0].time+"<br>震源："+Rjson[0].earthquake.hypocenter.name);
+        };
+
+    },3000);
+    </script>
