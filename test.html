@@ -1,10 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="example.css">
+  <title>地震速報</title>
+</head>
+<body>
+
 <h1>地震情報</h1>
-<script>
-    var apiHttps;
-    apiHttps = new XMLHttpRequest();
+
+<div id="earthQuake0">
+    <p id="time0"></p>
+    <p id="area0"></p>
+    <p id="magnitude0"></p>
+</div>
+<div id="earthQuake1">
+    <p id="time1"></p>
+    <p id="area1"></p>
+    <p id="magnitude1"></p>
+</div>
+<div id="earthQuake2">
+    <p id="time2"></p>
+    <p id="area2"></p>
+    <p id="magnitude2"></p>
+</div>
+<div id="earthQuake3">
+    <p id="time3"></p>
+    <p id="area3"></p>
+    <p id="magnitude3"></p>
+</div>
+<div id="earthQuake4">
+    <p id="time4"></p>
+    <p id="area4"></p>
+    <p id="magnitude4"></p>
+</div>
+
+<script src="test.js">
+</script>
+
+<!-- <script>
+     var apiHttps = new XMLHttpRequest();
+    //P2P地震情報 APIへのリクエスト設定
     apiHttps.open("GET", "https://api.p2pquake.net/v2/history?codes=551", false);
-    apiHttps.send(null);
+    //リクエストを送信
+    apiHttps.send();
+    //JSONをJavaScriptのオブジェクトに変換
+    var rjson=JSON.parse(apiHttps.responseText);
+    //最新JSONデータを格納
     var log=apiHttps.responseText;
+    //直近5件の地震情報を表示
+    for (let i = 0; i < 6; i++) {
+        var time = document.getElementById("time"+i);
+        time.innerHTML ="発生時刻:"+rjson[i].time;
+        var area = document.getElementById("area"+i);
+        area.innerHTML ="震源:"+areaConv(rjson[i].earthquake.hypocenter.name);
+        var magnitude = document.getElementById("magnitude"+i);
+        magnitude.innerHTML ="最大震度:"+ maxScaleConv(rjson[i].earthquake.maxScale); 
+    }
+    //60秒ごとに実行
     setInterval(function(){
         try{
             var apiHttp;
@@ -13,12 +66,65 @@
             apiHttp.send(null);
             var jsonData=apiHttp.responseText;
         }catch(e){};
-        var Rjson=JSON.parse(apiHttp.responseText);
-        if(apiHttp.responseText != log){
-        log=apiHttp.responseText;
-        document.write("地震発生<br>");
-        document.write(Rjson[0].time+"<br>震源："+Rjson[0].earthquake.hypocenter.name);
-        };
+        var rjson=JSON.parse(apiHttp.responseText);
+            //APIからの地震データが更新されている場合
+            if(apiHttp.responseText != log){
+            //最新JSONデータの更新
+            log=apiHttp.responseText;
+            //直近5件の地震情報を表示
+            for (let i = 0; i < 6; i++) {
+            var time = document.getElementById("time"+i);
+            time.innerHTML ="発生時刻:"+rjson[i].time;
+            var area = document.getElementById("area"+i);
+            area.innerHTML ="震源:"+areaConv(rjson[i].earthquake.hypocenter.name);
+            var magnitude = document.getElementById("magnitude"+i);
+            magnitude.innerHTML ="最大震度:"+ maxScaleConv(rjson[i].earthquake.maxScale);  
+    }
+        }; 
+    },60000);
 
-    },3000);
-    </script>
+    function maxScaleConv(maxScale) {
+        var intensity = '';
+        switch (maxScale){
+        case 10:
+            intensity = '1';
+        break;
+        case 20:
+            intensity = '2';
+        break;
+        case 30:
+            intensity = '3';
+        break;
+        case 40:
+            intensity = '4';
+        break;
+        case 45:
+            intensity = '5弱';
+        break;
+        case 50:
+            intensity = '5強';
+        break;
+        case 55:
+            intensity = '6弱';
+        break;
+        case 60:
+            intensity = '6強';
+        break;
+        default:
+            intensity = '震度情報なし';
+        }
+        return intensity;
+    }
+
+    function areaConv(area) {
+        var name ='';
+        if(area != ''){
+            name = area;
+        }else{
+            name ='震源地情報なし';
+        }
+        return name;
+    }
+    </script> -->
+</body>
+</html>
