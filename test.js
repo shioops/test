@@ -2,43 +2,43 @@
 //震度情報取得
 function maxScaleConv(maxScale) {
     var intensity = '';
-    switch (maxScale){
-    case 10:
-        intensity = '1';
-    break;
-    case 20:
-        intensity = '2';
-    break;
-    case 30:
-        intensity = '3';
-    break;
-    case 40:
-        intensity = '4';
-    break;
-    case 45:
-        intensity = '5弱';
-    break;
-    case 50:
-        intensity = '5強';
-    break;
-    case 55:
-        intensity = '6弱';
-    break;
-    case 60:
-        intensity = '6強';
-    break;
-    default:
-        intensity = '震度情報なし';
+    switch (maxScale) {
+        case 10:
+            intensity = '1';
+            break;
+        case 20:
+            intensity = '2';
+            break;
+        case 30:
+            intensity = '3';
+            break;
+        case 40:
+            intensity = '4';
+            break;
+        case 45:
+            intensity = '5弱';
+            break;
+        case 50:
+            intensity = '5強';
+            break;
+        case 55:
+            intensity = '6弱';
+            break;
+        case 60:
+            intensity = '6強';
+            break;
+        default:
+            intensity = '震度情報なし';
     }
     return intensity;
 }
 //震源地情報取得
 function areaConv(area) {
-    var name ='';
-    if(area != ''){
+    var name = '';
+    if (area != '') {
         name = area;
-    }else{
-        name ='震源地情報なし';
+    } else {
+        name = '震源地情報なし';
     }
     return name;
 }
@@ -53,21 +53,21 @@ function apiRequest() {
     return apiHttps.responseText;
 }
 //地震情報表示
-function textWrite(rjson){
+function textWrite(rjson) {
     for (let i = 0; i <= 4; i++) {
-        var time = document.getElementById("time"+i);
-        time.innerHTML ="発生時刻:"+rjson[i].time;
-        var area = document.getElementById("area"+i);
-        area.innerHTML ="震源:"+areaConv(rjson[i].earthquake.hypocenter.name);
-        var magnitude = document.getElementById("magnitude"+i);
-        magnitude.innerHTML ="最大震度:"+ maxScaleConv(rjson[i].earthquake.maxScale); 
+        var time = document.getElementById("time" + i);
+        time.innerHTML = "発生時刻:" + rjson[i].time;
+        var area = document.getElementById("area" + i);
+        area.innerHTML = "震源:" + areaConv(rjson[i].earthquake.hypocenter.name);
+        var magnitude = document.getElementById("magnitude" + i);
+        magnitude.innerHTML = "最大震度:" + maxScaleConv(rjson[i].earthquake.maxScale);
     }
 }
 
 //ここからメイン処理
 var log = apiRequest();
 //JSONをJavaScriptのオブジェクトに変換
-var rjson=JSON.parse(log);
+var rjson = JSON.parse(log);
 //直近5件の地震情報を表示
 textWrite(rjson)
 
@@ -75,19 +75,19 @@ Notification.requestPermission();
 const notification = new Notification("Check!");
 
 //60秒ごとに実行
-setInterval(function(){
-    try{
+setInterval(function () {
+    try {
         var apiHttp = apiRequest();
-    }catch(e){};
-    var rjson=JSON.parse(apiHttp);
-        //APIからの地震データが更新されている場合
-        if(apiHttp != log){
+    } catch (e) { };
+    var rjson = JSON.parse(apiHttp);
+    //APIからの地震データが更新されている場合
+    if (apiHttp != log) {
         //最新JSONデータの更新
-        log=apiHttp;
+        log = apiHttp;
         //直近5件の地震情報を表示
         textWrite(rjson);
-    }; 
-},60000);
+    };
+}, 60000);
 
 
 /* //ここからメイン処理
