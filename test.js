@@ -1,3 +1,5 @@
+
+
 //関数一覧
 //震度情報取得
 function maxScaleConv(maxScale) {
@@ -64,21 +66,13 @@ function textWrite(rjson) {
     }
 }
 
-//ここからメイン処理
-var log = apiRequest();
-//JSONをJavaScriptのオブジェクトに変換
-var rjson = JSON.parse(log);
-//直近5件の地震情報を表示
-textWrite(rjson)
-
-Notification.requestPermission();
-const notification = new Notification("Check!");
-
-//60秒ごとに実行
-setInterval(function () {
+function dataReacquisition() {
     try {
         var apiHttp = apiRequest();
-    } catch (e) { };
+    } catch (e) {
+        alert('エラーが発生しました。ページをリロードします。');
+        window.location.reload();
+    };
     var rjson = JSON.parse(apiHttp);
     //APIからの地震データが更新されている場合
     if (apiHttp != log) {
@@ -87,7 +81,17 @@ setInterval(function () {
         //直近5件の地震情報を表示
         textWrite(rjson);
     };
-}, 60000);
+}
+
+//ここからメイン処理
+var log = apiRequest();
+//JSONをJavaScriptのオブジェクトに変換
+var rjson = JSON.parse(log);
+//直近5件の地震情報を表示
+textWrite(rjson)
+
+//60秒ごとに実行
+setInterval(dataReacquisition, 6000);
 
 
 /* //ここからメイン処理
