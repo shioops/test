@@ -1,0 +1,44 @@
+h1 {
+    white-space: nowrap;
+    margin-bottom: 10px;
+    margin-top: 5px;
+    color: #364e96;
+    padding: 0.5em 0;
+    border-top: solid 3px #364e96;
+    border-bottom: solid 3px #364e96;
+}
+
+h3 {
+    white-space: nowrap;
+    margin: 0px;
+    margin-left: 10px;
+}
+
+.infomation {
+    display: flex;
+    flex-direction: column;
+}
+
+.flame0 {
+    border: 2px solid #000;
+    margin: 10px;
+    padding-left: 10px;
+    width: 45em;
+    background-color: #fff;
+    float: left;
+}
+
+.text0 {
+    margin-block: 10px;
+}
+
+.text1 {
+    position: relative;
+    right: 10px;
+    padding-left: 10px;
+    margin-block: 0px;
+    border-bottom: 2px solid #000;
+    background-color: lightblue;
+    width: 45em;
+    font-weight: bold;
+}
